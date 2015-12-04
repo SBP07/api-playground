@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>API playground</title>
+
+  <link href="./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <h1>API explorer</h1>
+
+    <h2>Config</h2>
+
+    <form class="form">
+      <div class="form-group">
+        <label for="config-domain">Request base (with "/" at the end)</label>
+        <input type="text" class="form-control" id="config-domain" placeholder="http://localhost:9000/" value="http://localhost:9000/">
+      </div>
+    </form>
+
+    <h2>Authentication</h2>
+
+    <h3>JSON Web Token</h3>
+
+    <a href="#" id="jwt-token-manual">Set yourself</a>
+
+    <pre><code id="jwt-token"></code></pre>
+
+    <h3>Request JWT</h3>
+
+    <form class="form-inline">
+      <div class="form-group">
+        <label for="auth-username">Email</label>
+        <input type="text" class="form-control" id="auth-username" placeholder="Username">
+      </div>
+      <div class="form-group">
+        <label for="auth-password">Password</label>
+        <input type="password" class="form-control" id="auth-password">
+      </div>
+      <button type="submit" class="btn btn-default" id="request-jwt">Request JWT token</button>
+    </form>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h2>Request builder</h2>
+
+          <form class="form">
+            <div class="form-group">
+              <label for="request-method">Method</label>
+              <select class="form-control" id="request-method">
+                <option value="GET">GET</option>
+                <option value="POST">POST</option>
+                <option value="PUT">PUT</option>
+                <option value="DELETE">DELETE</option>
+                <option value="OPTIONS">OPTIONS</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="request-endpoint">Endpoint</label>
+              <input type="text" class="form-control" id="request-endpoint" placeholder="/api/test">
+            </div>
+            <div class="form-group">
+              <label for="request-data">Data (for POST)</label>
+              <textarea class="form-control" id="request-data" placeholder="{}"></textarea>
+            </div>
+            <label>Extra options</label>
+            <div class="form-group">
+              <label class="checkbox-inline" for="request-send-jwt">
+                <input type="checkbox" id="request-send-jwt" value="request-send-jwt"> Send JWT
+              </label>
+              <label class="checkbox-inline" for="request-contenttype-json">
+                <input type="checkbox" id="request-contenttype-json" value="request-contenttype-json"> Content-Type: application/json
+              </label>
+              <label class="checkbox-inline" for="request-do-send-data">
+                <input type="checkbox" id="request-do-send-data" value="request-do-send-data"> Send data (for POST)
+              </label>
+            </div>
+            <button type="submit" class="btn btn-default" id="request-send">Send request</button>
+          </form>
+
+          <h3>Response (beautified if JSON)</h3>
+          <div id="request-response-label"></div>
+          <pre><code id="request-response-data"></code></pre>
+          <a href="#" id="request-response-log-json">Log to console as JSON</a>
+
+          <h2>Log</h2>
+
+          <h3>All</h3>
+            <div id="log"></div>
+        </div>
+        <div class="col-md-6">
+          <h3>Request details</h3>
+
+          <h4>Timestamp</h4>
+          <pre><code id="log-details-timestamp"></code></pre>
+          <pre><code id="log-details-timestamp-human"></code></pre>
+
+          <h4>Request URL</h4>
+          <pre><code id="log-details-request-url"></code></pre>
+
+          <h4>Request method</h4>
+          <pre><code id="log-details-request-method"></code></pre>
+
+          <h4>Request <code>Content-Type</code></h4>
+          <pre><code id="log-details-request-content-type"></code></pre>
+
+          <h4>Request data</h4>
+          <pre><code id="log-details-request-data"></code></pre>
+
+          <h4>Resonse text</h4>
+          <pre><code id="log-details-response-text"></code></pre>
+
+          <h4>Response status</h4>
+          <pre><code id="log-details-response-status"></code></pre>
+
+          <h4>Status text</h4>
+          <pre><code id="log-details-response-status-text"></code></pre>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+  </html>
