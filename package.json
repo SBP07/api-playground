@@ -1,4 +1,12 @@
 {
+  "name": "speelsysteem-api-playground",
+  "version": "1.0.0",
+  "description": "Simple playground to play with the backend JSON REST API. Thrown together in 2 hours, don't judge.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SBP07/api-playground"
+  },
+  "license": "MIT",
   "dependencies": {
     "bootstrap": "^3.3.6"
   }
