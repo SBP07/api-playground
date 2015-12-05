@@ -59,17 +59,10 @@ $( document ).ready(function() {
     ajaxOptions = conditionalExtend(sendData, { data: data }, ajaxOptions);
 
     $.ajax(ajaxOptions).complete(function(data) {
-      var labelClass = function(statusCode) {
-        if(statusCode < 200) return "label-info";
-        if(statusCode < 300) return "label-success";
-        if(statusCode < 400) return "label-warning";
-        return "label-danger";
-      };
       $('#request-response-data').text(data.responseText);
       $('#request-response-data').data('json', data.responseJSON);
-      console.log(data);
-      $('#request-response-label').html('<span class="label ' + labelClass(data.status) +
-        '">' + data.status + ' ' + data.statusText + '</span>');
+      $('#request-response-label').html(buildLabelFromStatusCode(data.status,
+        data.statusText));
       if(data.responseJSON) {
         $('#request-response-data').text(
           JSON.stringify(data.responseJSON, null, 2)
@@ -79,10 +72,22 @@ $( document ).ready(function() {
 
   });
 
+  // log as JSON to the console
   $('#request-response-log-json').click(function(e) {
     e.preventDefault();
     console.log($('#request-response-data').data('json'));
   });
+
+  var buildLabelFromStatusCode = function(statusCode, statusText) {
+    var labelClass = function(statusCode) {
+      if(statusCode < 200) return "label-info";
+      if(statusCode < 300) return "label-success";
+      if(statusCode < 400) return "label-warning";
+      return "label-danger";
+    };
+    return '<span class="label ' + labelClass(statusCode) + '">' +
+      statusCode + ' ' + statusText + '</span>';
+  }
 
   // Get JSON Web Token
   var getJwt = function() {
@@ -131,10 +136,11 @@ $( document ).ready(function() {
     var addLeadingZero = function(arg) {
       if(('' + arg).length == 1) { return '0' + arg; } else { return '' + arg; }
     };
-    var buildRow = function(timestamp, time, method, endpoint, status) {
+    var buildRow = function(timestamp, time, method, endpoint, statusCode, statusText) {
       return '<tr data-timestamp="' + timestamp + '"><td>' + time + '<td>' +
-        method + '<td>' + endpoint + '<td>' + status +
-        '<td><a href="#" class="open-log-details">Details</a>' + '</tr>';
+        method + '<td>' + endpoint + '<td>' + buildLabelFromStatusCode(
+          statusCode, statusText) +
+          '<td><a href="#" class="open-log-details">Details</a>' + '</tr>';
     };
 
     var table = $('<table class="table table-striped"></table');
@@ -146,7 +152,7 @@ $( document ).ready(function() {
         date.getMinutes()) + ':' + addLeadingZero(date.getSeconds());
       var endpoint = entry.request.url.replace(buildUri(''), ''); // remove location
       var row = buildRow(entry.timestampComplete, time, entry.request.method,
-        endpoint, entry.response.status);
+        endpoint, entry.response.status, entry.response.statusText);
       table.append(row);
     });
 
